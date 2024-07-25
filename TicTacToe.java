@@ -1,19 +1,26 @@
-package game;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import java.io.FileInputStream;
+import java.util.Properties;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+        import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.io.FileInputStream;
 import java.util.List;
 import java.util.Properties;
 
-public class TicTacToe {
+public class tic {
 
-   //static Properties propertyFile;
+    static Properties propertyFile;
     static WebDriver driver;
     public static void main(String[] args) {
-//        propertyFile = new Properties();
+        propertyFile = new Properties();
 //        try {
 //            FileInputStream input = new FileInputStream("config.properties");
 //            propertyFile.load(input);
@@ -29,8 +36,7 @@ public class TicTacToe {
         driver.get("https://playtictactoe.org/#google_vignette");
         pause(2);
 
-       //xpath of the blocks which allows to perform actions i.e. click
-        WebElement TopLeft = driver.findElement(By.xpath("//div[@class=\"square top left\"]"));
+        WebElement topLeft = driver.findElement(By.xpath("//div[@class=\"square top left\"]"));
         WebElement TopCentre = driver.findElement(By.xpath("//div[@class=\"square top\"]"));
         WebElement TopRight = driver.findElement(By.xpath("//div[@class=\"square top right\"]"));
         WebElement Middle = driver.findElement(By.xpath("//div[@class=\"square\"]"));
@@ -41,7 +47,6 @@ public class TicTacToe {
         WebElement RightCentre = driver.findElement(By.xpath("//div[@class=\"square right\"]"));
         WebElement BottomCentre = driver.findElement(By.xpath("//div[@class=\"square bottom\"]"));
 
-        //xpath of the blocks which stores the value of the block..whether o,x or nothing
         WebElement topLeftValue = driver.findElement(By.xpath("//div[@class=\"square top left\"]/div"));
         WebElement TopCentreValue = driver.findElement(By.xpath("//div[@class=\"square top\"]/div"));
         WebElement TopRightValue = driver.findElement(By.xpath("//div[@class=\"square top right\"]/div"));
@@ -53,12 +58,10 @@ public class TicTacToe {
         WebElement BottomCentreValue = driver.findElement(By.xpath("//div[@class=\"square bottom\"]/div"));
 
 
-        //TopLeft.click();
-        test t=new test(driver);
-        t.click(1);
+        topLeft.click();
         pause(2);
 
-        //values of block stored in String variables, it tells whether the o is enterd or not in that particular block
+        //values
         String topCentreValue = TopCentreValue.getAttribute("class");
         System.out.println("topCentreValue: " + topCentreValue);
         String leftCentreValue = LeftCentreValue.getAttribute("class");
@@ -75,225 +78,218 @@ public class TicTacToe {
         System.out.println("bottomRightValue" + bottomRightValue);
         String middleValue;
 
-        boolean i=false;
+//        for(boolean i=false; i==true;) {
+        if (topCentreValue.equalsIgnoreCase("o") || leftCentreValue.equalsIgnoreCase("o") || rightCentreValue.equalsIgnoreCase("o") || bottomCentreValue.equalsIgnoreCase("o")) {
+            Middle.click();
+            pause(2);
 
-//        for (boolean i = false; i == true; ) {
-        while (!i){
-            if (topCentreValue.equalsIgnoreCase("o") || leftCentreValue.equalsIgnoreCase("o") || rightCentreValue.equalsIgnoreCase("o") || bottomCentreValue.equalsIgnoreCase("o")) {
-                Middle.click();
-                pause(2);
+            topCentreValue = TopCentreValue.getAttribute("class");
+            leftCentreValue = LeftCentreValue.getAttribute("class");
+            System.out.println("leftCentreValue:" + leftCentreValue);
+            bottomRightValue = BottomrightValue.getAttribute("class");
+            System.out.println("bottomRightValue" + bottomRightValue);
+            rightCentreValue = RightCentreValue.getAttribute("class");
+            System.out.println("rightCentreValue" + rightCentreValue);
+            bottomCentreValue = BottomCentreValue.getAttribute("class");
+            System.out.println("bottomCentreValue" + bottomCentreValue);
 
-                topCentreValue = TopCentreValue.getAttribute("class");
-                leftCentreValue = LeftCentreValue.getAttribute("class");
-                System.out.println("leftCentreValue:" + leftCentreValue);
-                bottomRightValue = BottomrightValue.getAttribute("class");
-                System.out.println("bottomRightValue" + bottomRightValue);
-                rightCentreValue = RightCentreValue.getAttribute("class");
-                System.out.println("rightCentreValue" + rightCentreValue);
-                bottomCentreValue = BottomCentreValue.getAttribute("class");
-                System.out.println("bottomCentreValue" + bottomCentreValue);
+            //if opponent is adjacent
+            if (topCentreValue.equalsIgnoreCase("o") || leftCentreValue.equalsIgnoreCase("o")) {
 
-                //if opponent is adjacent
-                if (topCentreValue.equalsIgnoreCase("o") || leftCentreValue.equalsIgnoreCase("o")) {
-
-                    //if (topCentreValue.equalsIgnoreCase("o") || bottomRightValue.equalsIgnoreCase("o")) {
-                    if (topCentreValue.equalsIgnoreCase("o")) {
-
-                        BottomLeft.click();
-                        pause(5);
-                        topRightValue = TopRightValue.getAttribute("class");
-                        System.out.println("topRightValue" + topRightValue);
-
-                        if (topRightValue.equalsIgnoreCase("o")) {
-                            System.out.println("3");
-                            LeftCentre.click();
-                            pause(2);
-                        } else {
-                            System.out.println("4");
-                            TopRight.click();
-                            pause(2);
-                        }
-                    } else {
-                        TopRight.click();
-                        pause(5);
-
-                        topCentreValue = TopCentreValue.getAttribute("class");
-                        System.out.println("topCentreValue: " + topCentreValue);
-
-                        if (topCentreValue.equalsIgnoreCase("o")) {
-                            System.out.println("1");
-                            BottomLeft.click();
-                            pause(2);
-                        } else {
-                            System.out.println("4");
-                            TopCentre.click();
-                            pause(2);
-                        }
-                    }
-
-                }
-                //opponent at side center but not adjacent
-                else if (bottomCentreValue.equalsIgnoreCase("o") || rightCentreValue.equalsIgnoreCase("o")) {
-
-                    pause(2);
-
-                    if (bottomCentreValue.equalsIgnoreCase("o")) {
-                        BottomLeft.click();
-                        pause(2);
-
-                        topRightValue = TopRightValue.getAttribute("class");
-                        System.out.println("topRightValue" + topRightValue);
-
-                        if (topRightValue.equalsIgnoreCase("o")) {
-                            LeftCentre.click();
-                            pause(2);
-                        } else {
-                            TopRight.click();
-                            pause(2);
-                        }
-                    } else {
-                        TopRight.click();
-                        pause(2);
-
-                        topCentreValue = TopCentreValue.getAttribute("class");
-                        if (topCentreValue.equalsIgnoreCase("o")) {
-                            BottomLeft.click();
-                            pause(2);
-                        } else {
-                            TopCentre.click();
-                            pause(2);
-                        }
-                    }
-                }
-               // System.out.println("It's a win!!!");
-
-                  i=true;
-                pause(5);
-            }
-            // opponent at corner
-            else if (topRightValue.equalsIgnoreCase("o") || bottomRightValue.equalsIgnoreCase("o") || bottomLeftValue.equalsIgnoreCase("o")) {
-                //  i= true;
-                if (topRightValue.equalsIgnoreCase("o")) {
+                if (topCentreValue.equalsIgnoreCase("o") || bottomRightValue.equalsIgnoreCase("o")) {
                     BottomLeft.click();
-                    pause(2);
-                    Bottomright.click();
-                    pause(2);
+                    pause(5);
+                    topRightValue = TopRightValue.getAttribute("class");
+                    System.out.println("topRightValue" + topRightValue);
 
-                    leftCentreValue = LeftCentreValue.getAttribute("class");
-                    if (leftCentreValue.equalsIgnoreCase("o")) {
-                        middleValue = MiddleValue.getAttribute("class");
-                        if (middleValue.equalsIgnoreCase("o")) {
-                            BottomCentre.click();
-                            pause(2);
-                        } else {
-                            Middle.click();
-                            pause(2);
-                        }
-                    } else {
+                    if (topRightValue.equalsIgnoreCase("o")) {
+                        System.out.println("3");
                         LeftCentre.click();
                         pause(2);
+                    } else {
+                        System.out.println("4");
+                        TopRight.click();
+                        pause(2);
                     }
-                } else if (bottomLeftValue.equalsIgnoreCase("o")) {
+                } else {
                     TopRight.click();
-                    pause(2);
-                    Bottomright.click();
-                    pause(2);
+                    pause(5);
+
+                    topCentreValue = TopCentreValue.getAttribute("class");
+                    System.out.println("topCentreValue: " + topCentreValue);
 
                     if (topCentreValue.equalsIgnoreCase("o")) {
-                        middleValue = MiddleValue.getAttribute("class");
+                        System.out.println("1");
+                        BottomLeft.click();
                         pause(2);
-                        if (middleValue.equalsIgnoreCase("o")) {
-                            RightCentre.click();
-                            pause(2);
-                        } else {
-                            Middle.click();
-                        }
+                    } else {
+                        System.out.println("4");
+                        TopCentre.click();
+                        pause(2);
+                    }
+                }
+
+            }
+            //center but not adjacent
+            else if (bottomCentreValue.equalsIgnoreCase("o") || rightCentreValue.equalsIgnoreCase("o")) {
+
+                pause(2);
+
+                if (bottomCentreValue.equalsIgnoreCase("o")) {
+                    BottomLeft.click();
+                    pause(2);
+
+                    topRightValue = TopRightValue.getAttribute("class");
+                    System.out.println("topRightValue" + topRightValue);
+
+                    if (topRightValue.equalsIgnoreCase("o")) {
+                        LeftCentre.click();
+                        pause(2);
+                    } else {
+                        TopRight.click();
+                        pause(2);
+                    }
+                } else {
+                    TopRight.click();
+                    pause(2);
+
+                    topCentreValue = TopCentreValue.getAttribute("class");
+                    if (topCentreValue.equalsIgnoreCase("o")) {
+                        BottomLeft.click();
+                        pause(2);
                     } else {
                         TopCentre.click();
                         pause(2);
                     }
                 }
-                //opponent at diagonally opposite corner
-                else {
-                    BottomLeft.click();
-                    pause(2);
-                    TopRight.click();
-                    pause(2);
+            }
+            System.out.println("It's a win!!!");
 
+            //  i=true;
+            pause(5);
+        }
+        // opp at corner
+        else if (topRightValue.equalsIgnoreCase("o") || bottomRightValue.equalsIgnoreCase("o") || bottomLeftValue.equalsIgnoreCase("o")) {
+            //  i= true;
+            if (topRightValue.equalsIgnoreCase("o")) {
+                BottomLeft.click();
+                pause(2);
+                Bottomright.click();
+                pause(2);
+
+                leftCentreValue=LeftCentreValue.getAttribute("class");
+                if(leftCentreValue.equalsIgnoreCase("o")){
                     middleValue = MiddleValue.getAttribute("class");
                     if (middleValue.equalsIgnoreCase("o")) {
-                        TopCentre.click();
+                        BottomCentre.click();
                         pause(2);
                     } else {
                         Middle.click();
                         pause(2);
                     }
-
                 }
-               // System.out.println("It's a win!!!");
-                i=true;
+                else{
+                    LeftCentre.click();
+                    pause(2);
+                }
             }
-
-            //opponent at centre
-            else {
+            else if (bottomLeftValue.equalsIgnoreCase("o")) {
+                TopRight.click();
+                pause(2);
                 Bottomright.click();
                 pause(2);
 
-                bottomLeftValue = BottomLeftValue.getAttribute("class");
-                topRightValue = TopRightValue.getAttribute("class");
-                if (topRightValue.equalsIgnoreCase("o")) {
-                    BottomLeft.click();
-                    pause(2);
-                    bottomLeftValue = BottomLeftValue.getAttribute("class");
-                    leftCentreValue = LeftCentreValue.getAttribute("class");
-                    if (leftCentreValue.equalsIgnoreCase("o")) {
-                        BottomCentre.click();
-                    } else {
-                        LeftCentre.click();
-                    }
-                    //System.out.println("It's a win!!!");
-                        i=true;
-                } else if (bottomLeftValue.equalsIgnoreCase("o")) {
-                    TopRight.click();
-                    pause(2);
-                    topCentreValue = TopCentreValue.getAttribute("class");
-                    if (topCentreValue.equalsIgnoreCase("o")) {
-                        System.out.println("i am  rightcentre");
-                       // RightCentre.click();
+                if(topCentreValue.equalsIgnoreCase("o")){
+                    middleValue = MiddleValue.getAttribute("class");
+                    if (middleValue.equalsIgnoreCase("o")) {
                         RightCentre.click();
                         pause(2);
                     } else {
                         TopCentre.click();
                     }
-                  //  System.out.println("It's a win!!!");
-                              i=true;
-                } else {
-                    i=false;
-                    System.out.println("its a tie");
-                    driver.navigate().refresh();
-                    continue;
-
-
+                }
+                else{
+                    TopCentre.click();
+                    pause(2);
                 }
             }
+            //opponent at diagonally opposite
+            else {
+                BottomLeft.click();
+                pause(2);
+                TopRight.click();
+                pause(2);
 
-//            pause(2);
+                middleValue = MiddleValue.getAttribute("class");
+                if (middleValue.equalsIgnoreCase("o")) {
+                    TopCentre.click();
+                    pause(2);
+                } else {
+                    Middle.click();
+                    pause(2);
+                }
+
+            }
+            System.out.println("It's a win!!!");
+//                i=true;
         }
-         if(driver.findElement(By.xpath("//div[@class=\"scores p1\"]//span[@class=\"score appear\"]")).isDisplayed()){
-             System.out.println("It's a win!!!");
-         }else{
-             System.out.println("its a tie");
-         }
-        driver.quit();
 
-    }
+        //opponent at centre
+        else {
+            Bottomright.click();
+            pause(2);
 
-        public static void pause ( int Seconds){
-            try {
-                Thread.sleep(Seconds * 1000);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
+            bottomLeftValue=BottomLeftValue.getAttribute("class");
+            topRightValue = TopRightValue.getAttribute("class");
+            if (topRightValue.equalsIgnoreCase("o")) {
+                BottomLeft.click();
+                pause(2);
+                bottomLeftValue=BottomLeftValue.getAttribute("class");
+                leftCentreValue = LeftCentreValue.getAttribute("class");
+                if (leftCentreValue.equalsIgnoreCase("o")) {
+                    BottomCentre.click();
+                } else {
+                    LeftCentre.click();
+                }
+                System.out.println("It's a win!!!");
+
+                //       i=true;
+            }
+
+            else if(bottomLeftValue.equalsIgnoreCase("o")){
+
+                TopRight.click();
+                pause(2);
+
+                topCentreValue = TopCentreValue.getAttribute("class");
+                if (topCentreValue.equalsIgnoreCase("o")) {
+                    RightCentre.click();
+                    pause(2);
+                } else {
+                    TopCentre.click();
+                }
+                System.out.println("It's a win!!!");
+
+                //            i=true;
+            }
+            else{
+                //i=false;
+                System.out.println("its a tie");
+                driver.navigate().refresh();
             }
 
         }
+
+        pause(2);
+        driver.quit();
     }
+
+    public static void pause ( int Seconds){
+        try {
+            Thread.sleep(Seconds * 1000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+}
